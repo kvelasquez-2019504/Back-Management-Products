@@ -3,6 +3,7 @@ import { check } from "express-validator";
 import { addProduct } from "./product.controller.js";
 import { sanitizer } from "../../middlewares/sanitizer.js";
 import { validateFields } from "../../middlewares/validateFields.js";
+import { validateNameProduct } from "../../helpers/validateProduct.js";
 const router = Router();
 
 router.post(
@@ -14,6 +15,7 @@ router.post(
         check("price", "No viene el precio o no es un número.").not().isEmpty().isNumeric(),
         validateFields,
         sanitizer,
+        check("name").custom(validateNameProduct),
     ],
     addProduct
 );

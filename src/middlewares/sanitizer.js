@@ -7,7 +7,7 @@ const cleanData = (data)=>{
     return data;
 }
 
-export const sanitizer =(req,res,next)=>{
+export const sanitizer =async(req,res,next)=>{
     if(req.body){
         req.body=cleanData(req.body);
     }

@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+
+import { dbConnection } from './database.js';
 import routesProduct from '../api/products/product.routes.js';
 
 dotenv.config();
@@ -15,9 +17,13 @@ class Server{
         this.pathsRoutes={
             "/":routesProduct
         }
-
         this.middlewares();
+        this.connectDB();
         this.routes();
+    }
+
+    async connectDB  (){
+        await dbConnection();
     }
 
     middlewares(){
