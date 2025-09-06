@@ -1,4 +1,6 @@
-const exceptions=["price"]
+const exceptions=["price"];
+
+//Limpia los datos de entrada, eliminando etiquetas de script y caracteres especiales
 const cleanData = (data)=>{
     Object.entries(data).map(([key,value])=>{
         data[key]=String(value).trim().replace(/<script.*?>.*?<\/script>/gi,'');

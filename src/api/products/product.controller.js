@@ -5,12 +5,6 @@ export const addProduct=async (req,res)=>{
     try {
         const{ name, description, price, category }=req.body;
 
-        const existProductName=await validateNameProduct("POST", await ProductSchema.countDocuments({name}));
-        if(existProductName){
-            return res.status(400).json({
-                message:`El producto '${name}' ya existe en la base de datos.`
-            })
-        }
         const newProduct = new ProductSchema({name,description,price,category});
         await newProduct.save();
         res.status(200).json({
@@ -50,18 +44,10 @@ export const updateProduct=async (req,res)=>{
         const { id } = req.params;
         const { name, description, price, category } = req.body;
 
-        const existProductName=await validateNameProduct("PUT", 
-            await ProductSchema.countDocuments({name, _id: { $ne: id }})
-        );
-        if(existProductName){
-            return res.status(400).json({
-                message:`El producto '${name}' ya existe en la base de datos.`
-            })
-        }
-
-        const updatedProduct = await ProductSchema.findByIdAndUpdate(id, 
+        await ProductSchema.findByIdAndUpdate(id, 
             { name, description, price, category }
         );
+        const updatedProduct = await ProductSchema.findById(id);
         res.status(200).json({
             message:"Producto actualizado correctamente.",
             products: updatedProduct
