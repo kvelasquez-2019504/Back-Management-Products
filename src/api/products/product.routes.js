@@ -31,7 +31,9 @@ router.put("/products/:id",[
     check("id","No es un id valido").isMongoId(),
     check("id").custom(validateProductById),
     check("name", "No viene el nombre del producto.").optional().not().isEmpty(),
-    check(["name","id"]).optional().custom(validateNameProductModify),
+    check("name").optional().custom(
+            (name, { req }) => validateNameProductModify(name, req.params.id)
+    ),,
     check("description", "No viene la descripcion del producto.").optional().not().isEmpty(),
     check("category", "No viene la categoria del producto.").optional().not().isEmpty(),
     check("price", "No viene el precio o no es un número.").optional().not().isEmpty().isNumeric(),
