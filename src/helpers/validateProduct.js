@@ -7,12 +7,16 @@ export const validateNameProduct=async (name="")=>{
     }0
 }
 
-export const validateNameProductModify=async (name="", {id=""})=>{
-    const productFind = await ProductSchema.find({name, id: { $ne: id }});
-    if(productFind.length>0){
+export const validateNameProductModify = async (name = "", id = "") => {
+    if (!id) {
+        throw new Error("ID de producto no proporcionado para la validación.");
+    }
+    const productFind = await ProductSchema.find({ name, _id: { $ne: id } });
+    if (productFind.length > 0) {
         throw new Error(`El producto '${name}' ya existe en la base de datos.`);
     }
 }
+
 
 export const validateProductById=async (id="")=>{
     const productFind = await ProductSchema.findById(id);
