@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { dbConnection } from './database.js';
+import limiter from '../middlewares/apiLimiter.js'
 import routesProduct from '../api/products/product.routes.js';
 
 dotenv.config();
@@ -32,6 +33,7 @@ class Server{
         this.app.use(cors());
         this.app.use(helmet());
         this.app.use(morgan("dev"));
+        this.app.use(limiter);
     }
 
     listen(){

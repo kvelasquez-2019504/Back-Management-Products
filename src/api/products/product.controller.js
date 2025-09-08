@@ -21,7 +21,7 @@ export const addProduct=async (req,res)=>{
 
 export const getProducts = async (req,res)=>{
     try {
-        const {currentPage = 1, itemsPerPage = 10} = req.query;
+        const {currentPage = 1, itemsPerPage = 5} = req.query;
         const skip = (currentPage - 1) * itemsPerPage;
         const total = await ProductSchema.countDocuments();
         const products = await ProductSchema.find().skip(skip).limit(Number(itemsPerPage));
@@ -29,7 +29,8 @@ export const getProducts = async (req,res)=>{
             products,
             total,
             currentPage: Number(currentPage),
-            totalPages: Math.ceil(total / itemsPerPage)
+            totalPages: Math.ceil(total / itemsPerPage),
+            msg: "Productos obtenidos correctamente."
         })
         
     } catch (error) {
