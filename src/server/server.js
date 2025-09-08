@@ -32,7 +32,9 @@ class Server{
         this.app.use(express.json());
         this.app.use(cors());
         this.app.use(helmet());
-        this.app.use(morgan("dev"));
+        this.app.use(cors({
+            origin: 'https://front-management-products.vercel.app'
+        }));
         this.app.use(limiter);
     }
 
